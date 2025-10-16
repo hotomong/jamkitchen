@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jam kitchen</title>
+  <link rel="stylesheet" href="./css/main.css">
+  <style>
+    /* 동그란 탑/바텀 버튼 스타일 */
+    .scroll-btn {
+      position: fixed;
+      right: 20px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      font-weight: bold;
+      font-size: 15px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+    .scroll-btn:hover {
+      transform: scale(1.05);
+    }
+    #topBtn {
+      bottom: 80px;
+      background-color: #E43C2F;
+      border: 1px solid #fff;
+    }
+    #bottomBtn {
+      bottom: 20px;
+      background-color: #E43C2F;
+      border: 1px solid #fff;      
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrap" style="height:2000px;">
+    <img src="./img/jam.png" alt="jam_BIBX">
+  </div>
+
+  <!-- TOP / BOTTOM 버튼 -->
+  <button id="topBtn" class="scroll-btn">▲</button>
+  <button id="bottomBtn" class="scroll-btn">▼</button>
+
+
+
+
+
+  <script>
+    // 스크롤에 따른 배경색 전환
+    window.addEventListener("scroll", () => {
+      const scroll = window.scrollY;
+      const height = document.body.scrollHeight - window.innerHeight;
+      const ratio = Math.min(scroll / height, 1);
+
+      const colors = [
+        [245, 242, 235], // #F5F2EB
+        [228, 90, 47],   // #E45A2F
+        [228, 60, 47]    // #E43C2F
+      ];
+
+      const total = colors.length - 1;
+      const index = Math.min(Math.floor(ratio * total), total - 1);
+      const localRatio = (ratio * total) - index;
+
+      const start = colors[index];
+      const end = colors[index + 1];
+
+      const r = Math.round(start[0] + (end[0] - start[0]) * localRatio);
+      const g = Math.round(start[1] + (end[1] - start[1]) * localRatio);
+      const b = Math.round(start[2] + (end[2] - start[2]) * localRatio);
+
+      document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    });
+
+
+
+
+    // 버튼 기능
+    const topBtn = document.getElementById("topBtn");
+    const bottomBtn = document.getElementById("bottomBtn");
+
+    topBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    bottomBtn.addEventListener("click", () => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
